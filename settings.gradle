@@ -11,5 +11,4 @@ include 'vegetables-greens:vegetables-greens-service'
 include 'vegetables-greens:vegetables-greens-api'
 include 'vegetables-greens:vegetables-greens-mapper'
 include 'vegetables-greens:vegetables-greens-entity'
-include 'vegetables-yam'
 
