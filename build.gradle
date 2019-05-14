@@ -1,47 +1,54 @@
-plugins {
-    id 'java'
-}
 
-group 'com.farm.project'
-version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+ext{
 
-repositories {
-    maven{
-        //设置maven仓库地址
-        url "https://maven.aliyun.com/nexus/content/groups/public/"
-    }
+
+
 }
 
 
+//所有项目配置
 allprojects{
+
+    repositories {
+        maven{
+            //设置maven仓库地址
+            url "https://maven.aliyun.com/nexus/content/groups/public/"
+        }
+    }
 
     //设置所有子模块组和版本号
     group = 'com.farm.project'
     version = "1.0-SNAPSHOT"
+
 }
 
+
+//所有子项目配置
+subprojects {
+    
+
+}
 
 project(":vegetables-tomato"){
 
+    dependencies {
+
+    }
+
+
 }
 
 
-project(":vegetables-hoe"){
+project(":vegetables-hoe"){ Project project ->
+
+    apply plugin:"java"
+    sourceCompatibility = JavaVersion.VERSION_1_8
 
     dependencies{
-
-        i
-
+        implementation group: 'com.google.guava', name: 'guava', version: '27.1-jre'
     }
 
 }
 
 
-
-
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}

@@ -1,13 +1,30 @@
-plugins {
-    id 'java'
+
+subprojects{
+    apply plugin: 'java'
+
+    //设置所有子模块组和版本号
+    group = 'com.vegetables.tomato'
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-sourceCompatibility = 1.8
+project(":vegetables-tomato:vegetables-tomato-service"){
 
-repositories {
-    mavenCentral()
+    dependencies {
+
+        implementation project(":vegetables-hoe")
+
+    }
+
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+project(":vegetables-tomato:vegetables-tomato-api"){
+
+    dependencies{
+        implementation project(":vegetables-tomato:vegetables-tomato-service")
+    }
+
 }
+
+
+
