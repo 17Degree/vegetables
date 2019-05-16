@@ -1,0 +1,45 @@
+
+
+ext{
+
+    aaa = '2.1.5.RELEASE'
+
+}
+
+subprojects{
+
+    apply plugin: 'java-library'
+
+    //设置所有子模块组和版本号
+    group = 'com.vegetables.user'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+
+
+    dependencies{
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE'
+    }
+
+}
+
+
+//配置核心层
+project(":vegetables-user:vegetables-user-core"){
+
+    dependencies {
+        api project(":vegetables-hoe")
+        implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+        api group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.5.RELEASE'
+        api group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+
+    }
+}
+
+//配置控制层
+project(":vegetables-user:vegetables-user-api"){
+
+    dependencies{
+        implementation project(":vegetables-user:vegetables-user-core")
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.5.RELEASE'
+    }
+
+}

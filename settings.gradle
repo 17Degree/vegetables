@@ -6,9 +6,7 @@ include 'vegetables-tomato:vegetables-tomato-api'
 include 'vegetables-tomato:vegetables-tomato-mapper'
 include 'vegetables-tomato:vegetables-tomato-entity'
 
-include 'vegetables-greens'
-include 'vegetables-greens:vegetables-greens-service'
-include 'vegetables-greens:vegetables-greens-api'
-include 'vegetables-greens:vegetables-greens-mapper'
-include 'vegetables-greens:vegetables-greens-entity'
+include 'vegetables-user'
+include 'vegetables-user:vegetables-user-api'
+include 'vegetables-user:vegetables-user-core'
 
