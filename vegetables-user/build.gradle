@@ -10,6 +10,8 @@ subprojects{
 
     apply plugin: 'java-library'
 
+    compileJava.options.encoding = 'UTF-8'
+    
     //设置所有子模块组和版本号
     group = 'com.vegetables.user'
     sourceCompatibility = JavaVersion.VERSION_1_8

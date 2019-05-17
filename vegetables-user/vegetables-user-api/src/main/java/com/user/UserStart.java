@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.user.core.dao")
+@EnableJpaRepositories("com.user.core.repository")
 public class UserStart {
 
     public static void main(String[] args) {

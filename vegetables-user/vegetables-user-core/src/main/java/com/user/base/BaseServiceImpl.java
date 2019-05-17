@@ -13,4 +13,5 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     public T findById(ID id) {
         return repository.findById(id).get();
     }
+
 }

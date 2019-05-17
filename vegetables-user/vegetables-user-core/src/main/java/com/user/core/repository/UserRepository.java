@@ -1,4 +1,4 @@
-package com.user.core.dao;
+package com.user.core.repository;
 
 
 import com.user.base.BaseRepository;

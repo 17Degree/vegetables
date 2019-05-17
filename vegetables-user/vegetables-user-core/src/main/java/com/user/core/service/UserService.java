@@ -1,5 +1,6 @@
 package com.user.core.service;
 
+import com.user.base.BaseService;
 import com.user.core.entity.User;
 
 /**

@@ -1,8 +1,11 @@
 package com.user.core.entity;
 
+import com.user.base.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -14,6 +17,7 @@ import javax.persistence.*;
  **/
 @Data
 @Entity
+@Table(name = "veg_user")
 public class User extends BaseEntity<Long> {
 
     /**
