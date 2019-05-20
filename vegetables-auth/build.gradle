@@ -1,0 +1,35 @@
+
+subprojects{
+
+    apply plugin: 'java-library'
+
+    compileJava.options.encoding = 'UTF-8'
+
+    //设置所有子模块组和版本号
+    group = 'com.vegetables.auth'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+
+    dependencies{
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE'
+    }
+
+}
+
+project(":vegetables-auth:vegetables-auth-core"){
+
+}
+
+project(":vegetables-auth:vegetables-auth-api"){
+
+    dependencies{
+        implementation project(":vegetables-auth:vegetables-auth-core")
+
+        implementation  group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.5.RELEASE'
+
+        implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
+
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.5.RELEASE'
+
+    }
+
+}

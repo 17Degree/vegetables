@@ -9,4 +9,7 @@ include 'vegetables-tomato:vegetables-tomato-entity'
 include 'vegetables-user'
 include 'vegetables-user:vegetables-user-api'
 include 'vegetables-user:vegetables-user-core'
+include 'vegetables-auth'
+include 'vegetables-auth:vegetables-auth-api'
+include 'vegetables-auth:vegetables-auth-core'
 

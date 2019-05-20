@@ -1,13 +1,12 @@
 package com.user.base;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
 @MappedSuperclass
-public class BaseEntity<ID extends Serializable> {
+public class BaseEntity<ID extends Serializable> implements Serializable{
+
+    private static final long serialVersionUID = -7824717674898671157L;
 
     /**
      * 主键
@@ -16,4 +15,12 @@ public class BaseEntity<ID extends Serializable> {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected ID id;
+
+    public ID getId() {
+        return id;
+    }
+
+    public void setId(ID id) {
+        this.id = id;
+    }
 }

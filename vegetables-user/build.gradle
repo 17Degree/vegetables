@@ -1,5 +1,4 @@
 
-
 ext{
 
     aaa = '2.1.5.RELEASE'
@@ -32,7 +31,6 @@ project(":vegetables-user:vegetables-user-core"){
         implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
         api group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.5.RELEASE'
         api group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-
     }
 }
 
@@ -40,8 +38,15 @@ project(":vegetables-user:vegetables-user-core"){
 project(":vegetables-user:vegetables-user-api"){
 
     dependencies{
+
         implementation project(":vegetables-user:vegetables-user-core")
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.5.RELEASE'
+
+        implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+        implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+        implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
+
     }
 
 }

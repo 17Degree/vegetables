@@ -16,14 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {
 
-
     @Autowired
     private UserRepository userRepository;
 
-
-    @Override
-    public void aaa() {
-
-
-    }
 }
