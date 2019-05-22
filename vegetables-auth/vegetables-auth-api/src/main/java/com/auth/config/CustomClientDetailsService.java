@@ -1,5 +1,7 @@
 package com.auth.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
@@ -15,8 +17,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomClientDetailsService implements ClientDetailsService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomClientDetailsService.class);
+
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+
+
+        logger.info("CustomClientDetailsService.loadClientByClientId().");
 
         return null;
     }
