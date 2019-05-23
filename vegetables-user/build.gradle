@@ -47,6 +47,9 @@ project(":vegetables-user:vegetables-user-api"){
 
         implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
 
+        implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
+
+
     }
 
 }

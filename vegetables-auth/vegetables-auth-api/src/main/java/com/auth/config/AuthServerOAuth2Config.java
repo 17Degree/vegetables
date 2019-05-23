@@ -71,12 +71,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
                 .scopes("read")
                 .autoApprove("true")
 
-                //设置密码，授权码和刷新令牌
-
-
-
-
-
+                //设置了三种授权类型
                 .and()
                 .withClient("clientIdPassword")
                 .secret("secret")
@@ -96,6 +91,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
+        //为了使用password授权类型，需要连接并使用authenticationManagerBean
         endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
     }
 

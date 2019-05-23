@@ -17,6 +17,13 @@ subprojects{
 
 project(":vegetables-auth:vegetables-auth-core"){
 
+    dependencies {
+        api project(":vegetables-hoe")
+        implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+        api group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.5.RELEASE'
+        api group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    }
+
 }
 
 project(":vegetables-auth:vegetables-auth-api"){
@@ -24,7 +31,7 @@ project(":vegetables-auth:vegetables-auth-api"){
     dependencies{
         implementation project(":vegetables-auth:vegetables-auth-core")
 
-        implementation  group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.5.RELEASE'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.5.RELEASE'
 
         implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
 
