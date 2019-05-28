@@ -2,7 +2,7 @@
 package com.auth.core.repository;
 
 import com.auth.base.BaseRepository;
-import com.auth.core.entity.Clientdetails;
+import com.auth.core.entity.ClientDetails;
 import org.springframework.stereotype.Repository;
 
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  **/
 
 @Repository
-public interface ClientdetailsRepository extends BaseRepository<Clientdetails, String> {
+public interface ClientdetailsRepository extends BaseRepository<ClientDetails, String> {
 
 
 }

@@ -2,8 +2,7 @@
 package com.auth.core.service;
 
 import com.auth.base.BaseService;
-
-import com.auth.core.entity.Clientdetails;
+import com.auth.core.entity.ClientDetails;
 
 
 /**
@@ -11,7 +10,7 @@ import com.auth.core.entity.Clientdetails;
  * @version 1.0
  * @data 2019-05-23 15:57
  **/
-public interface ClientdetailsService extends BaseService<Clientdetails, String> {
+public interface ClientdetailsService extends BaseService<ClientDetails, String> {
 
 
 }
