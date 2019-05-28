@@ -1,7 +1,6 @@
 package com.auth.config;
 
 
-import com.auth.core.entity.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +33,6 @@ public class JpaConfig {
         factory.setPackagesToScan(packagesScanPath);
         factory.setDataSource(dataSource);
 
-        Code a = new Code();
 
         return factory;
     }
