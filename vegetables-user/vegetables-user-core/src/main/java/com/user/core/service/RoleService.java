@@ -1,15 +1,14 @@
 package com.user.core.service;
 
 import com.user.base.BaseService;
+import com.user.core.entity.Role;
 import com.user.core.entity.User;
 
 /**
- * 用户表
+ * 角色
  * @author automatic
  * @version 1.0
  * @data 2019-05-16 11:39
  **/
-public interface UserService extends BaseService<User, Long> {
-
-    User findUserById(Long userId);
+public interface RoleService extends BaseService<Role, Long> {
 }

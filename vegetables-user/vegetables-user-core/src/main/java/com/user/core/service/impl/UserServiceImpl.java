@@ -1,8 +1,8 @@
 package com.user.core.service.impl;
 
 import com.user.base.BaseServiceImpl;
-import com.user.core.repository.UserRepository;
 import com.user.core.entity.User;
+import com.user.core.repository.UserRepository;
 import com.user.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +18,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 
     @Autowired
     private UserRepository userRepository;
+
+    @Override
+    public User findUserById(Long userId) {
+        return userRepository.findUserById(userId).get();
+    }
 
 }

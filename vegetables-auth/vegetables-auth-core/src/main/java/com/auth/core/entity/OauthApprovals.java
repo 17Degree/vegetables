@@ -1,72 +1,94 @@
 
 package com.auth.core.entity;
 
-import com.auth.base.BaseEntity;
 import lombok.Data;
+import javax.persistence.*;
+import com.auth.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 
 /**
- * @author automatic
- * @version 1.0
- * @data 2019-05-23 15:59
- **/
+* 
+* @author automatic
+* @version 1.0
+* @data 2019-05-28 14:44
+**/
 @Data
 @Entity
 @Table(name = "veg_oauth_approvals")
-public class OauthApprovals extends BaseEntity<Long> {
+public class OauthApprovals extends BaseEntity<Long>{
 
 
-    /**
-     *
-     */
-    @Column(name = "id")
-    private Long id;
+
+  /**
+  * 主键
+  */
+  @Id
+  @Column
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
 
-    /**
-     *
-     */
-    @Column(name = "userId")
-    private String userid;
 
 
-    /**
-     *
-     */
-    @Column(name = "clientId")
-    private String clientid;
+
+  /**
+  * 
+  */
+  @Column(name = "userId")
+  private String userid;
 
 
-    /**
-     *
-     */
-    @Column(name = "scope")
-    private String scope;
 
 
-    /**
-     *
-     */
-    @Column(name = "status")
-    private String status;
+
+  /**
+  * 
+  */
+  @Column(name = "clientId")
+  private String clientid;
 
 
-    /**
-     *
-     */
-    @Column(name = "expiresAt")
-    private java.sql.Date expiresat;
 
 
-    /**
-     *
-     */
-    @Column(name = "lastModifiedAt")
-    private java.sql.Date lastmodifiedat;
+
+  /**
+  * 
+  */
+  @Column(name = "scope")
+  private String scope;
+
+
+
+
+
+  /**
+  * 
+  */
+  @Column(name = "status")
+  private String status;
+
+
+
+
+
+  /**
+  * 
+  */
+  @Column(name = "expiresAt")
+  private java.sql.Date expiresat;
+
+
+
+
+
+  /**
+  * 
+  */
+  @Column(name = "lastModifiedAt")
+  private java.sql.Date lastmodifiedat;
+
+
 
 
 }

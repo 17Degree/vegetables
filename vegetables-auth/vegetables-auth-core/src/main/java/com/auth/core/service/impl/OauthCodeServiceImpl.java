@@ -4,9 +4,8 @@ package com.auth.core.service.impl;
 
 
 import com.auth.base.BaseServiceImpl;
-import com.auth.core.entity.Code;
-import com.auth.core.service.CodeService;
-
+import com.auth.core.entity.OauthCode;
+import com.auth.core.service.OauthCodeService;
 import org.springframework.stereotype.Service;
 
 
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @data 2019-05-23 15:57
  **/
 @Service
-public class CodeServiceImpl extends BaseServiceImpl<Code, Long> implements CodeService {
+public class OauthCodeServiceImpl extends BaseServiceImpl<OauthCode, Long> implements OauthCodeService {
 
 
 }

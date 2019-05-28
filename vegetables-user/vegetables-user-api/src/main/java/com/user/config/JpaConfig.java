@@ -27,8 +27,9 @@ public class JpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-
+        vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan(packagesScanPath);
         factory.setDataSource(dataSource);
@@ -44,7 +45,5 @@ public class JpaConfig {
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
     }
-
-
 
 }
