@@ -1,42 +1,49 @@
 package com.user.config.security;
 
+import com.user.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.annotation.Resource;
 
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
+
     @Autowired
     private AbstractAuthenticationProcessingFilter authenticationProcessingFilter;
 
-    @Resource(name = "userService")
-    private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.eraseCredentials(false);
-
-        //
-//        //设置密码不需要加密 bCryptPasswordEncoder()=>NoOpPasswordEncoder.getInstance()
-        auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
+        auth.eraseCredentials(false);
     }
 
+
+
+    /**
+     * 配置静态文件路由 表示不处理权限认证
+     * @Author chenjiacheng
+     * @Date 2019/6/4 14:44
+     * @param web
+     * @return void
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**", "/js/**", "/lib/**");
@@ -60,6 +67,19 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 将自定义的 AbstractAuthenticationProcessingFilter 加在 Spring 过滤器链中
                 .addFilterBefore(authenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
+    @Bean
+    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+        return new LoginUrlAuthenticationEntryPoint("/login/unAuthentication");
+    }
+
+
+
+
+
+
+
+
 
 
 }

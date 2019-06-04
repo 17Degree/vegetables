@@ -1,8 +1,9 @@
 package com.user.config.security;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,16 +18,14 @@ import java.util.Objects;
  * @Date 2019/6/1 11:26
  */
 @Component
-public class CustomAuthenticationManager implements AuthenticationManager {
+public class CustomAuthenticationManager implements AuthenticationManager, BeanPostProcessor {
 
-    private final AuthenticationProvider authenticationProvider;
-
-    public CustomAuthenticationManager(AuthenticationProvider authenticationProvider) throws NoSuchFieldException, IllegalAccessException {
-
-       String flag = (String)authenticationProvider.getClass().getField("flag").get(authenticationProvider);
-
-        this.authenticationProvider = authenticationProvider;
+    {
+        System.out.println("构造块：CustomAuthenticationManager");
     }
+
+    @Autowired
+    private CustomDaoAuthenticationProvider authenticationProvider;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -40,4 +39,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
         throw new ProviderNotFoundException("Authentication failed!");
     }
+
+
+
 }

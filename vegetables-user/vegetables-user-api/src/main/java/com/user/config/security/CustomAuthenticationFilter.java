@@ -1,8 +1,8 @@
 package com.user.config.security;
 
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -35,14 +35,14 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
      */
     public CustomAuthenticationFilter(
             AuthenticationManager authenticationManager, AuthenticationFailureHandler authenticationFailureHandler,
-            AuthenticationSuccessHandler authenticationSuccessHandler) {
+            AuthenticationSuccessHandler authenticationSuccessHandler, CustomsetSessionAuthenticationStrategy customsetSessionAuthenticationStrategy) {
 
-        super(new AntPathRequestMatcher("/login", "POST"));
+        super(new AntPathRequestMatcher("/login", HttpMethod.GET.name()));
         this.setAuthenticationManager(authenticationManager);
-
 
         this.setAuthenticationFailureHandler(authenticationFailureHandler);
         this.setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        this.setSessionAuthenticationStrategy(customsetSessionAuthenticationStrategy);
     }
 
 
@@ -61,10 +61,10 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        if (!request.getMethod().equals("POST")) {
-            throw new AuthenticationServiceException(
-                    "Authentication method not supported: " + request.getMethod());
-        }
+//        if (!request.getMethod().equals("POST")) {
+//            throw new AuthenticationServiceException(
+//                    "Authentication method not supported: " + request.getMethod());
+//        }
         /*
         // 添加验证码校验功能
         String captcha = request.getParameter("captcha");
@@ -78,8 +78,7 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
         username = Objects.isNull(username) ? "" : username.trim();
         password = Objects.isNull(password) ? "" : password;
 
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-                username, password);
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
         return this.getAuthenticationManager().authenticate(authRequest);
     }

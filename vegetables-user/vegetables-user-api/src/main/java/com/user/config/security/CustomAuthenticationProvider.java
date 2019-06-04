@@ -7,10 +7,11 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /***
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  * @Author chenjiacheng
  * @Date 2019/6/1 11:25
  */
-@Component
+//@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     public String flag = "真正处理认证请求的bean";
@@ -33,15 +34,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private List<User> getUser(String username) {
-        return preloadUsers().stream().filter(user -> user.getUsername().equals(username)).collect(Collectors.toList());
+        return preloadUsers().stream().filter(user -> user.getUsername().equals("user1")).collect(Collectors.toList());
     }
 
 
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
+
         // 获取用户登录时输入的用户名
         String username = authentication.getName();
+
         // 根据用户名查询系统中的用户信息
         List<User> users = getUser(username);
         // 如果用户列表为 null，说明查找用户功能出现异常，抛出 AuthenticationServiceException
@@ -74,11 +77,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new LockedException(String.format("User[%s] is locked!", username));
         }
         // 如果用户登录时输入的密码和系统中密码匹配，则返回一个完全填充的 Authentication 对象
-        if (user.getPassword().equals(authentication.getCredentials().toString())) {
-            return new UsernamePasswordAuthenticationToken(authentication, authentication.getCredentials(), new ArrayList<>());
-        }
+//        if (user.getPassword().equals(authentication.getCredentials().toString())) {
+//            return new UsernamePasswordAuthenticationToken(authentication, authentication.getCredentials(), new ArrayList<>());
+//        }
         // 如果密码不匹配则返回 null（此处可以抛异常，试具体应用场景而定）
-        return null;
+
+        return authentication;
     }
 
     //方法判断是否支持此类型认证，因为本文示例代码中只有一个 AuthenticationProvider，所以设置为支持所有认证请求
