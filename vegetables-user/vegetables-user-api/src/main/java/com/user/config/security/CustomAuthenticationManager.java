@@ -1,14 +1,16 @@
 package com.user.config.security;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 /**
@@ -18,7 +20,9 @@ import java.util.Objects;
  * @Date 2019/6/1 11:26
  */
 @Component
-public class CustomAuthenticationManager implements AuthenticationManager, BeanPostProcessor {
+public class CustomAuthenticationManager implements AuthenticationManager{
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationManager.class);
 
     {
         System.out.println("构造块：CustomAuthenticationManager");
@@ -41,5 +45,10 @@ public class CustomAuthenticationManager implements AuthenticationManager, BeanP
     }
 
 
+
+    @PostConstruct
+    public void init(){
+        logger.info("CustomAuthenticationManager:init():");
+    }
 
 }

@@ -10,7 +10,6 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ import java.util.Objects;
  * @Author chenjiacheng
  * @Date 2019/6/1 11:36
  */
-@Component
+//@Component
 public class CustomAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     /**

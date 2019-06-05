@@ -2,7 +2,6 @@ package com.user.config.security;
 
 import com.user.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -10,10 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
@@ -21,11 +16,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
+//    @Autowired
+//    private AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Autowired
-    private AbstractAuthenticationProcessingFilter authenticationProcessingFilter;
+//    @Autowired
+//    private AbstractAuthenticationProcessingFilter authenticationProcessingFilter;
 
     @Autowired
     private UserService userService;
@@ -52,27 +47,27 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .exceptionHandling()//.authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 // 允许所有人访问 /login/page
-                .authorizeRequests().antMatchers("/oauth/**","/login/unAuthentication").permitAll()
+                .authorizeRequests().antMatchers("/oauth/**","/login/**").permitAll()
                 // 任意访问请求都必须先通过认证
                 .anyRequest().authenticated()
                 .and()
                 //禁用CSRF
                 .csrf().disable()
                 // 启用 iframe 功能
-                .headers().frameOptions().disable()
+                .headers().frameOptions().disable();
 //                .and()
                 // 将自定义的 AbstractAuthenticationProcessingFilter 加在 Spring 过滤器链中
-                .addFilterBefore(authenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
+                //.addFilterBefore(authenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
-        return new LoginUrlAuthenticationEntryPoint("/login/unAuthentication");
-    }
-
+//    @Bean
+//    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+//        return new LoginUrlAuthenticationEntryPoint("/login/unAuthentication");
+//    }
+//
 
 
 
