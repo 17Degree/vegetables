@@ -20,6 +20,7 @@ public class CustomPasswordEncoder implements PasswordEncoder {
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         System.out.println("密码鉴定");
-        return false;
+        return true;
     }
+
 }

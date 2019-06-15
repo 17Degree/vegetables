@@ -34,6 +34,7 @@ public class CustomAuthenticationManager implements AuthenticationManager{
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
+
         //将认证信息/对象 传给自定义的认证器认证
         Authentication authenticate = authenticationProvider.authenticate(authentication);
 

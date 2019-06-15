@@ -1,11 +1,9 @@
 package com.user.config.security;
 
 
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +14,8 @@ import java.io.IOException;
 
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
 
 
     public CustomAuthenticationFailureHandler() {
@@ -28,16 +28,24 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e)
             throws IOException, ServletException {
-        if (e instanceof UsernameNotFoundException) {
-            httpServletResponse.sendRedirect("/login/error?inexistent");
-        } else if (e instanceof DisabledException) {
-            httpServletResponse.sendRedirect("/login/error?disabled");
-        } else if (e instanceof AccountExpiredException) {
-            httpServletResponse.sendRedirect("/login/error?expired");
-        } else if (e instanceof LockedException) {
-            httpServletResponse.sendRedirect("/login/error?locked");
-        } else {
-            httpServletResponse.sendRedirect("/login/error?error");
-        }
+
+        logger.info("--------------------登录失败++++++++++++++++++++++");
+
+        httpServletResponse.getWriter().append(e.getMessage());
+        httpServletResponse.setStatus(401);
+
+//        if (e instanceof UsernameNotFoundException) {
+//            httpServletResponse.sendRedirect("/login/error?inexistent");
+//        } else if (e instanceof DisabledException) {
+//            httpServletResponse.sendRedirect("/login/error?disabled");
+//        } else if (e instanceof AccountExpiredException) {
+//            httpServletResponse.sendRedirect("/login/error?expired");
+//        } else if (e instanceof LockedException) {
+//            httpServletResponse.sendRedirect("/login/error?locked");
+//        } else {
+//            httpServletResponse.sendRedirect("/login/error?error");
+//        }
+
+
     }
 }

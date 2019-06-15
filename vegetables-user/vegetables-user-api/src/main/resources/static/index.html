@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+</head>
+<body>
+
+    <form id="loginForm">
+
+        用户名：<input id="username" name="username" type="text" value="xiaobai"  />
+        </br>
+        密码：<input id="password" name="password"  type="text" value="123456" /> <input id="sub-btn1" type="button" value="登录" />
+        </br>
+        </br>
+        </br>
+
+        用户ID：<input id="userId" type="text" value="1"  /> <input id="sub-btn2" type="button" value="获取指定用户信息" />
+        </br>
+        </br>
+        </br>
+
+        <input id="sub-btn3" type="button" value="获取全部用户信息" />
+        <input id="sub-btn4" type="button" value="获取全部Cookie" />
+
+    </form>
+
+
+    <script>
+
+
+        $("#sub-btn1").click(() =>{
+
+            console.log($("#loginForm").serialize());
+
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8061/login?rand=" + Math.random(),
+                data: $("#loginForm").serialize(),
+                dataType: 'JSON',
+                success: function (result) {
+
+                    console.log(result);
+                }
+            });
+
+        });
+
+        $("#sub-btn2").click(() =>{
+
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8061/user/info?rand=" + Math.random(),
+                data: {"userId":1},
+                dataType: 'JSON',
+                success: function (result) {
+
+                    console.log(result);
+                }
+            });
+
+        });
+
+        $("#sub-btn3").click(() =>{
+
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8061/user/all?rand=" + Math.random(),
+                dataType: 'JSON',
+                success: function (result) {
+
+                    console.log(result);
+                }
+            });
+
+        });
+        $("#sub-btn4").click(() =>{
+
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8061/test/cookie?rand=" + Math.random(),
+                dataType: 'JSON',
+                data:{"browser":"chrome"},
+                success: function (result) {
+
+                    console.log(result);
+                }
+            });
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

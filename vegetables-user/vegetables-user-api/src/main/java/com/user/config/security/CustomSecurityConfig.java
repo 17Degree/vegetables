@@ -1,6 +1,5 @@
 package com.user.config.security;
 
-import com.user.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 
 @EnableWebSecurity
@@ -22,12 +22,24 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    private AbstractAuthenticationProcessingFilter authenticationProcessingFilter;
 
+
+
     @Autowired
-    private UserService userService;
+    private CustomAuthenticationManager customAuthenticationManager;
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.eraseCredentials(false);
+
+        auth.parentAuthenticationManager(customAuthenticationManager);
+
     }
 
 
@@ -41,18 +53,25 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/lib/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/lib/**", "/index.html");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .exceptionHandling()//.authenticationEntryPoint(authenticationEntryPoint)
-                .and()
+//                .exceptionHandling()//.authenticationEntryPoint(authenticationEntryPoint)
+//                .and()
                 // 允许所有人访问 /login/page
-                .authorizeRequests().antMatchers("/oauth/**","/login/**").permitAll()
+                .authorizeRequests().antMatchers("/oauth/**","/login/**","/test/**").permitAll()
                 // 任意访问请求都必须先通过认证
                 .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login")
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
+                .and()
+                //配置request缓存方式
+                .requestCache().requestCache(new HttpSessionRequestCache())
                 .and()
                 //禁用CSRF
                 .csrf().disable()

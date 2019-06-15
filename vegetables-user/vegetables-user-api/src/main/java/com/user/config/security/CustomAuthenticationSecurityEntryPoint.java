@@ -1,6 +1,13 @@
 package com.user.config.security;
 
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 /***
@@ -20,6 +27,16 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 //@Configuration
 public class CustomAuthenticationSecurityEntryPoint {
 
+
+    private class CustomLoginUrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+        @Override
+        public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+
+        }
+    }
+
+
     /***
      * 自定义登录地址
      * @Author chenjiacheng
@@ -29,6 +46,9 @@ public class CustomAuthenticationSecurityEntryPoint {
      */
     //@Bean
     public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
-        return new LoginUrlAuthenticationEntryPoint("/unAuthentication");
+
+
+
+        return new LoginUrlAuthenticationEntryPoint("/login/unAuthentication");
     }
 }

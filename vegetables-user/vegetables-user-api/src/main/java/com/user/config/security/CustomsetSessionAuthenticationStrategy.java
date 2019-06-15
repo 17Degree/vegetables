@@ -31,7 +31,7 @@ public class CustomsetSessionAuthenticationStrategy implements SessionAuthentica
         System.out.println(request);
         System.out.println(response);
 
-        logger.info("+++++++++++++onAuthentication+++++++++++++ sessionId:" + request.getSession(true).getId());
+        logger.info("+++++++++++++onAuthentication+++++++++++++ sessionId:" + request.getSession(false).getId());
     }
 
     @Override

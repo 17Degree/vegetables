@@ -24,4 +24,12 @@ public class LoginApi {
     public JSONObject success(){
         return new JSONObject().fluentPut("msg","登陆成功");
     }
+
+    @GetMapping("invalid")
+    public JSONObject invalid(){
+        return new JSONObject().fluentPut("msg","登录无效");
+    }
+
+
+
 }
