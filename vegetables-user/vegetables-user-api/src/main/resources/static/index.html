@@ -26,6 +26,8 @@
         <input id="sub-btn3" type="button" value="获取全部用户信息" />
         <input id="sub-btn4" type="button" value="获取全部Cookie" />
 
+        <input id="sub-btn5" type="button" value="退出" />
+
     </form>
 
 
@@ -93,7 +95,20 @@
         });
 
 
+        $("#sub-btn5").click(() =>{
 
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8061/logout?rand=" + Math.random(),
+                dataType: 'JSON',
+                data:{"browser":"chrome"},
+                success: function (result) {
+
+                    console.log(result);
+                }
+            });
+
+        });
 
 
 

@@ -33,6 +33,8 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -69,6 +71,9 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login")
                 .successHandler(customAuthenticationSuccessHandler)
                 .failureHandler(customAuthenticationFailureHandler)
+                .and()
+                .logout().logoutUrl("/logout")
+                .logoutSuccessHandler(customLogoutSuccessHandler)
                 .and()
                 //配置request缓存方式
                 .requestCache().requestCache(new HttpSessionRequestCache())
