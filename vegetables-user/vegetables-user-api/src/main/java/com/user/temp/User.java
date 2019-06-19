@@ -80,4 +80,9 @@ public class User {
         return "User{" + "username='" + username + '\'' + ", password='" + password + '\'' + ", enabled=" + enabled +
                 ", expired=" + expired + ", locked=" + locked + ", roles=" + roles + '}';
     }
+
+
+
+
+
 }

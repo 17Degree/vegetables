@@ -8,4 +8,5 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
     public SecurityInitializer() {
         super(CustomSecurityConfig.class, HttpSessionConfig.class);
     }
+
 }
