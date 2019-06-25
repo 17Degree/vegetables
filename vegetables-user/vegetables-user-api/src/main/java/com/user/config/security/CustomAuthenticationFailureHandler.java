@@ -33,7 +33,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
         httpServletResponse.getWriter().append(e.getMessage());
         httpServletResponse.setStatus(401);
-
 //        if (e instanceof UsernameNotFoundException) {
 //            httpServletResponse.sendRedirect("/login/error?inexistent");
 //        } else if (e instanceof DisabledException) {
