@@ -2,10 +2,16 @@ package com.user.config.oauth2.auth;
 
 
 import com.user.config.security.CustomAuthenticationManager;
+import com.user.config.security.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -16,6 +22,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAdapter{
@@ -25,6 +34,7 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
      */
     @Autowired
     private CustomAuthenticationManager customAuthenticationManager;
+
 
     /***
      *
@@ -37,7 +47,7 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 
-        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").passwordEncoder(passwordEncoder());
     }
 
 
@@ -97,6 +107,7 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
+
         //为了使用password授权类型，需要连接并使用authenticationManagerBean
         //tokenEnhancer()设置令牌
         endpoints.tokenStore(tokenStore()).tokenEnhancer(null).authenticationManager(customAuthenticationManager);
@@ -134,4 +145,34 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
         // converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
         return converter;
     }
+
+
+
+    /**
+     * spring 默认 encodingId = bcrypt
+     * @author farmer
+     * @date 2019/7/1 22:32
+     * @param
+     * @return org.springframework.security.crypto.password.PasswordEncoder
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        String encodingId = "noop";
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put("bcrypt", new BCryptPasswordEncoder());
+        encoders.put("ldap", new org.springframework.security.crypto.password.LdapShaPasswordEncoder());
+        encoders.put("MD4", new org.springframework.security.crypto.password.Md4PasswordEncoder());
+        encoders.put("MD5", new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("MD5"));
+        encoders.put("noop", org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance());
+        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
+        encoders.put("scrypt", new SCryptPasswordEncoder());
+        encoders.put("SHA-1", new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-1"));
+        encoders.put("SHA-256", new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-256"));
+        encoders.put("sha256", new org.springframework.security.crypto.password.StandardPasswordEncoder());
+
+        return new DelegatingPasswordEncoder(encodingId, encoders);
+    }
+
+
+
 }
