@@ -70,7 +70,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .exceptionHandling()//.authenticationEntryPoint(authenticationEntryPoint)
 //                .and()
                 // 允许所有人访问 /login/page
-                .authorizeRequests().antMatchers("/callback/**","/oauth/**","/login/**","/test/**").permitAll()
+                .authorizeRequests().antMatchers("/callback/**","/login/**","/test/**").permitAll()
                 // 任意访问请求都必须先通过认证
                 .anyRequest().authenticated()
                 .and()

@@ -18,10 +18,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +50,7 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 
-        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").passwordEncoder(passwordEncoder());
+        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").passwordEncoder(new CustomPasswordEncoder());
     }
 
 
@@ -68,16 +71,17 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
                 .scopes("read", "write", "foo", "bar")
                 .autoApprove(false)
                 .accessTokenValiditySeconds(3600)
-                .redirectUris("http://localhost:8083/","http://localhost:8086/")
+                .redirectUris("http://127.0.0.1:8061/callback/temp1","http://127.0.0.1:8061/callback/temp2")
 
                 .and()
                 .withClient("fooClientIdPassword")
                 .secret("secret")
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
                 .scopes("foo", "read", "write")
+                .autoApprove(true)
                 .accessTokenValiditySeconds(3600)       // 1 hour
                 .refreshTokenValiditySeconds(2592000)  // 30 days
-                .redirectUris("http://www.example.com","http://localhost:8089/","http://localhost:8080/login/oauth2/code/custom","http://localhost:8080/ui-thymeleaf/login/oauth2/code/custom", "http://localhost:8080/authorize/oauth2/code/bael", "http://localhost:8080/login/oauth2/code/bael")
+                .redirectUris("http://127.0.0.1:8061/callback/temp1")
 
                 .and()
                 .withClient("barClientIdPassword")
@@ -92,7 +96,7 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
                 .authorizedGrantTypes("implicit")
                 .scopes("read", "write", "foo", "bar")
                 .autoApprove(true)
-                .redirectUris("http://www.example.com");
+                .redirectUris("http://127.0.0.1:8061/callback/temp1");
     }
 
 
@@ -110,7 +114,11 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
 
         //为了使用password授权类型，需要连接并使用authenticationManagerBean
         //tokenEnhancer()设置令牌
-        endpoints.tokenStore(tokenStore()).tokenEnhancer(null).authenticationManager(customAuthenticationManager);
+        //自定义TOKEN生成策略
+        final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+
+        endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain).authenticationManager(customAuthenticationManager);
     }
 
     @Bean
@@ -135,6 +143,12 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
     @Bean
     public TokenStore tokenStore(){
         return new JwtTokenStore(accessTokenConverter());
+    }
+
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
     }
 
     @Bean
