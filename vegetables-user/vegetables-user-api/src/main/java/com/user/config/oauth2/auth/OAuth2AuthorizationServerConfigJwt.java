@@ -1,12 +1,15 @@
 package com.user.config.oauth2.auth;
 
 
+import com.user.config.oauth2.common.CustomDefaultTokenServices;
+import com.user.config.oauth2.common.CustomJwtAccessTokenConverter;
+import com.user.config.oauth2.common.CustomJwtTokenStore;
 import com.user.config.security.CustomAuthenticationManager;
 import com.user.config.security.CustomPasswordEncoder;
+import com.user.config.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,12 +20,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,6 +36,14 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
      */
     @Autowired
     private CustomAuthenticationManager customAuthenticationManager;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private CustomDefaultTokenServices customDefaultTokenServices;
+    @Autowired
+    private CustomJwtAccessTokenConverter customJwtAccessTokenConverter;
+    @Autowired
+    private CustomJwtTokenStore customJwtTokenStore;
 
 
     /***
@@ -67,9 +74,9 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
 
         clients.inMemory()
                 .withClient("sampleClientId")
-                .authorizedGrantTypes("implicit")
+                .authorizedGrantTypes("implicit", "refresh_token")
                 .scopes("read", "write", "foo", "bar")
-                .autoApprove(false)
+                .autoApprove(true)
                 .accessTokenValiditySeconds(3600)
                 .redirectUris("http://127.0.0.1:8061/callback/temp1","http://127.0.0.1:8061/callback/temp2")
 
@@ -116,34 +123,15 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
         //tokenEnhancer()设置令牌
         //自定义TOKEN生成策略
         final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), customJwtAccessTokenConverter));
 
-        endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain).authenticationManager(customAuthenticationManager);
+        endpoints
+                .tokenStore(customJwtTokenStore)
+                .tokenEnhancer(tokenEnhancerChain)
+                .authenticationManager(customAuthenticationManager)
+                .userDetailsService(customUserDetailsService);
     }
 
-    @Bean
-    @Primary
-    public DefaultTokenServices tokenServices() {
-        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-
-        return defaultTokenServices;
-    }
-
-    /***
-     *
-     * 为了持久化令牌选择JDBC_TOKEN_STORE
-     * @Author chenjiacheng
-     * @Date 2019/5/22 17:29
-     * @param
-     * @return org.springframework.security.oauth2.provider.token.TokenStore
-     */
-    @Bean
-    public TokenStore tokenStore(){
-        return new JwtTokenStore(accessTokenConverter());
-    }
 
 
     @Bean
@@ -151,14 +139,6 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
         return new CustomTokenEnhancer();
     }
 
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
-        // final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
-        // converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
-        return converter;
-    }
 
 
 
