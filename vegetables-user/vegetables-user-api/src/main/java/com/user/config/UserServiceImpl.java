@@ -1,6 +1,6 @@
 //package com.user.config;
 //
-//import com.user.temp.User;
+//import com.user.com.security.temp.User;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;

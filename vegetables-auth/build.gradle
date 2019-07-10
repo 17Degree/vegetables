@@ -29,7 +29,12 @@ project(":vegetables-auth:vegetables-auth-core"){
 project(":vegetables-auth:vegetables-auth-api"){
 
     dependencies{
+
+        implementation project(":vegetables-security")
+
         implementation project(":vegetables-auth:vegetables-auth-core")
+        implementation project(":vegetables-user:vegetables-user-core")
+
 
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.5.RELEASE'
 

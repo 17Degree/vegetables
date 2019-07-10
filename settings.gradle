@@ -12,4 +12,5 @@ include 'vegetables-user:vegetables-user-core'
 include 'vegetables-auth'
 include 'vegetables-auth:vegetables-auth-api'
 include 'vegetables-auth:vegetables-auth-core'
+include 'vegetables-security'
 

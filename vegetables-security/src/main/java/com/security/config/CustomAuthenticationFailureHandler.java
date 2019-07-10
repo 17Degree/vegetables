@@ -1,4 +1,4 @@
-package com.user.config.security;
+package com.security.config;
 
 
 import org.slf4j.Logger;
@@ -19,8 +19,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
 
     public CustomAuthenticationFailureHandler() {
-
-
     }
 
     /**
